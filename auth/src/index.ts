@@ -5,6 +5,8 @@ import { currentUserRouter } from './routers/current-user'
 import { signinRouter } from './routers/signin'
 import { signoutRouter } from './routers/signout'
 import { signupRouter } from './routers/signup'
+import { NotFoundError } from './errors/not-found-error';
+import { errorHandler } from './middlewares/error-handler';
 
 const app = express()
 app.use(json())
@@ -13,6 +15,12 @@ app.use(currentUserRouter)
 app.use(signinRouter)
 app.use(signoutRouter)
 app.use(signupRouter)
+
+app.all('*', (req, res) => {
+    throw new NotFoundError()
+})
+
+app.use(errorHandler)
 
 app.listen(3000, () => {
     console.log("Port 3000 is running!!!")

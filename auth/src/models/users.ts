@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { Password } from '../utils/password';
 
 // an interface used to combine ts to confirm the data type when create a new user
 interface UserAttri{
@@ -30,6 +31,14 @@ const UserSchema = new mongoose.Schema({
     }
 })
 
+
+UserSchema.pre('save', async function(done){
+    if(this.isModified('password')){
+        const hashedPassword = await Password.toHash(this.get('password'))
+        this.set('password', hashedPassword)
+    }
+    done()
+})
 
 // create a method called build which can be invoke by User
 UserSchema.statics.build = (attr: UserAttri) => {

@@ -5,6 +5,7 @@ import { Password } from '../utils/password';
 interface UserAttri{
     email: string;
     password: string;
+    isAdmin: boolean;
 }
 
 // an interface that describes the properties that a User Model has
@@ -18,6 +19,8 @@ interface UserModel extends mongoose.Model<UserDoc>{
 interface UserDoc extends mongoose.Document{
     email: string;
     password: string;
+    isAdmin: boolean;
+    status: boolean;
 }
 
 const UserSchema = new mongoose.Schema({
@@ -28,8 +31,18 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    isAdmin: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
+    status: {
+        type: Boolean,
+        default: true
     }
 }, {
+    timestamps: true,
     toJSON: {
         transform(doc, ret){
             // unify the format of return user model

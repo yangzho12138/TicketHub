@@ -12,14 +12,14 @@ router.post('/api/users/signup', [
     body('email').isEmail().withMessage('Email must be valid'),
     body('password').trim().isLength({ min: 4, max: 20}).withMessage('Password is invalid')
 ], validateRequest,async (req : Request, res : Response) => {
-    const { email, password } = req.body
+    const { email, password, isAdmin } = req.body
     
     const existingUser = await User.findOne({email})
     if(existingUser){
         throw new BadRequestError('The email address has been used')
     }
 
-    const newUser = User.build({email, password})
+    const newUser = User.build({email, password, isAdmin})
     await newUser.save()
 
     // generate token

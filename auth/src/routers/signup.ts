@@ -26,7 +26,9 @@ router.post('/api/users/signup', [
     const userJwt = jwt.sign({
         id: newUser.id,
         email: newUser.email
-    }, process.env.JWT_KEY!)
+    }, process.env.JWT_KEY!,{
+        expiresIn: "0.25h"
+    })
     // store token in cookie
     req.session = {
         jwt: userJwt

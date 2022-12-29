@@ -29,10 +29,17 @@ router.post('/api/users/signin', [
     const userJwt = jwt.sign({
         id: existingUser.id,
         email: existingUser.email
-    }, process.env.JWT_KEY!)
+    }, process.env.JWT_KEY!, {
+        expiresIn: "0.25h"
+    })
     // store token in cookie
     req.session = {
         jwt: userJwt
+    }
+
+    if(!existingUser.status){
+        // TODO
+        // send message to event-bus to different services --> the coming 15min not allowed the given user to get service
     }
     
     res.status(200).send(existingUser)

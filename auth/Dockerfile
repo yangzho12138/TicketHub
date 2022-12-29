@@ -7,7 +7,7 @@ FROM node:alpine
 WORKDIR /app
 # COPY package.json from local machine to build context . (inside the container -> /app/.)
 COPY package.json .
-RUN npm install
+RUN npm install --only=prod
 COPY . .
 
 CMD ["npm", "start"]

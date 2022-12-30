@@ -12,10 +12,18 @@ build:
   artifacts:
     # - image: us.gcr.io/ticketing-dev-372602/auth
     - image: yangzhou12138/auth
-      context: auth
+      context: auth # folder
       docker:
         dockerfile: Dockerfile
       sync:
         manual:
           - src: "src/**/*.ts"
+            dest: .
+    - image: yangzhou12138/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "**/*.js"
             dest: .

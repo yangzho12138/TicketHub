@@ -1,7 +1,12 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
+import request from 'supertest';
+import { app } from '../app'
 
 let mongo : any;
+declare global {
+    function signin(): Promise<string[]> // 返回值为一个promise(async)，promise的类型为string[](cookie的类型)
+}
 
 beforeAll(async() => {
     process.env.JWT_KEY = "YangZhou12138";
@@ -29,3 +34,21 @@ afterAll(async () => {
     }
     await mongoose.connection.close();
 });
+
+global.signin = async() => {
+    const email = "test@example.com";
+    const password = "123456";
+
+    const response = await request(app)
+        .post("/api/users/signup")
+        .send({
+        email,
+        password,
+        })
+        .expect(201);
+
+    const cookie = response.get("Set-Cookie");
+
+    return cookie;
+
+}

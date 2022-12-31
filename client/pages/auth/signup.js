@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import useRequest from "../../hooks/use-request";
+import Router from "next/router";
 
 const signup = () => {
     const [email, setEmail] = useState("");
@@ -12,7 +13,7 @@ const signup = () => {
         body: {
           email,
           password,
-          confirmedPassword
+        //   confirmedPassword
         },
         onSuccess: () => Router.push("/"),
       });
@@ -47,7 +48,7 @@ const signup = () => {
                             <Link href="/auth/signin">Have an account? Signin now!</Link>
                         </div>
                         {errors}
-                        <button type="submit" className="btn btn-primary">Signip</button>
+                        <button type="submit" className="btn btn-primary">Signup</button>
                         </form>
                     </div>
                 </div>

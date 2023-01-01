@@ -1,11 +1,10 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
-import request from 'supertest';
-import { app } from '../app'
+import jwt from 'jsonwebtoken'
 
 let mongo : any;
 declare global {
-    function signin(): Promise<string[]> // 返回值为一个promise(async)，promise的类型为string[](cookie的类型)
+    function signin(): string[]
 }
 
 beforeAll(async() => {
@@ -35,20 +34,26 @@ afterAll(async () => {
     await mongoose.connection.close();
 });
 
-global.signin = async() => {
-    const email = "test@example.com";
-    const password = "123456";
+global.signin = () => {
+    // there is no current user api in tickets service -> fake sign in for tests
+    // build a jwt payload { id, email }
+    const payload = {
+        id: '12345',
+        email: 'Yang@test.com'
+    }
+    // create the JWT
+    const token = jwt.sign(payload, process.env.JWT_KEY!)
 
-    const response = await request(app)
-        .post("/api/users/signup")
-        .send({
-        email,
-        password,
-        })
-        .expect(201);
+    // build session object, { jwt: MY_JWT }
+    const session = { jwt: token }
 
-    const cookie = response.get("Set-Cookie");
+    // turn session to JSON
+    const sessionJson = JSON.stringify(session)
 
-    return cookie;
+    // take JSON and encode it as base64
+    const base64 = Buffer.from(sessionJson).toString('base64')
+
+    // return a string thats the cookie with the encoded data
+    return [`session=${base64}`]
 
 }

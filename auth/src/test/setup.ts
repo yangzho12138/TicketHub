@@ -5,7 +5,7 @@ import { app } from '../app'
 
 let mongo : any;
 declare global {
-    function signin(): Promise<string[]> // 返回值为一个promise(async)，promise的类型为string[](cookie的类型)
+    function signin(): Promise<string[]>; // 返回值为一个promise(async)，promise的类型为string[](cookie的类型)
 }
 
 beforeAll(async() => {
@@ -50,5 +50,4 @@ global.signin = async() => {
     const cookie = response.get("Set-Cookie");
 
     return cookie;
-
 }

@@ -3,10 +3,10 @@ import { json } from 'body-parser'
 import 'express-async-errors' // 可以在async函数中throw error
 import cookieSession from 'cookie-session'
 
-import { currentUserRouter } from './routers/current-user'
-import { signinRouter } from './routers/signin'
-import { signoutRouter } from './routers/signout'
-import { signupRouter } from './routers/signup'
+import { currentUserRouter } from './routes/current-user'
+import { signinRouter } from './routes/signin'
+import { signoutRouter } from './routes/signout'
+import { signupRouter } from './routes/signup'
 import { NotFoundError, errorHandler } from '@ticket_hub/common';
 
 const app = express()

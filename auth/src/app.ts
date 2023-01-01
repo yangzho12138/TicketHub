@@ -7,8 +7,7 @@ import { currentUserRouter } from './routers/current-user'
 import { signinRouter } from './routers/signin'
 import { signoutRouter } from './routers/signout'
 import { signupRouter } from './routers/signup'
-import { NotFoundError } from './errors/not-found-error';
-import { errorHandler } from './middlewares/error-handler';
+import { NotFoundError, errorHandler } from '@ticket_hub/common';
 
 const app = express()
 app.set('trust proxy', true) // https

@@ -38,7 +38,7 @@ global.signin = () => {
     // there is no current user api in tickets service -> fake sign in for tests
     // build a jwt payload { id, email }
     const payload = {
-        id: '12345',
+        id: new mongoose.Types.ObjectId(), // for different tests -> generate different id
         email: 'Yang@test.com'
     }
     // create the JWT

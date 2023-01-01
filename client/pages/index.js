@@ -1,7 +1,6 @@
 import buildClient from "../api/build-client"
 
 const LandingPage = ({ currentUser }) => {
-    console.log(currentUser)
     return(
         <h1>Landing</h1>
     )

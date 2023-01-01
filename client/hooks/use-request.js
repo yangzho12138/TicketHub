@@ -9,8 +9,6 @@ const useRequest = ({ url, method, body, onSuccess }) => {
             setErrors(null)
             const response = await axios[method](url, body)
 
-            console.log(response)
-
             // callback
             if(onSuccess){  
                 onSuccess(response.data)

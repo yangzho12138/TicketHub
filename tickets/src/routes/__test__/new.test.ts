@@ -1,6 +1,7 @@
 import request from 'supertest'
 import { app } from '../../app'
 import { Ticket } from '../../models/ticket'
+import { natsWrapper } from '../../nats-wrapper'; // import the real one, but during the test, it will be the fake one
 
 it('has a route handler listening to /api/tickets for post requests', async() => {
     const response = await request(app)
@@ -85,4 +86,17 @@ it('returns an error if an invalid price is provided', async () => {
         expect(tickets[0].title).toEqual(title);
   })
 
+it('publish an event', async() => {
+  const title = 'fight';
 
+  await request(app)
+  .post('/api/tickets')
+  .set('Cookie', global.signin())
+  .send({
+    title,
+    price: 20,
+  })
+  .expect(201);
+
+  expect(natsWrapper.client.publish).toHaveBeenCalled()
+})

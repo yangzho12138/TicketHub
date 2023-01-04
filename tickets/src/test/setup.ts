@@ -7,6 +7,8 @@ declare global {
     function signin(): string[]
 }
 
+jest.mock("../nats-wrapper"); // the file path that wants to mock
+
 beforeAll(async() => {
     process.env.JWT_KEY = "YangZhou12138";
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
@@ -18,6 +20,7 @@ beforeAll(async() => {
 })
 
 beforeEach(async() => {
+    jest.clearAllMocks(); // between each test, reset the mock function
     // delete all the info in db
     const collections = await mongoose.connection.db.collections()
 

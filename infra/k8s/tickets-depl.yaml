@@ -19,6 +19,17 @@ spec:
           env:
             - name: MONGO_URI
               value: "mongodb://tickets-mongo-srv:27017/tickets"
+            - name: NATS_URL
+              value: "http://nats-srv:4222"
+            - name: NATS_CLUSTER_ID
+              value: ticketing
+            # unique client_id for every client that connects to NATS (copys of tickets microservice)
+            # the name of each pod is unique
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            # JWT_KEY is screte and can not be write in the config file directly
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:

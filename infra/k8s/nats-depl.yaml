@@ -30,6 +30,7 @@ spec:
               "-hbf",
               "2",
               "-SD",
+              # cluster id, the first parameter when create a client(stan) -> nats.connect
               "-cid",
               "ticketing",
             ]

@@ -35,3 +35,11 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: .
+    - image: yangzhou12138/orders
+      context: orders # folder
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .

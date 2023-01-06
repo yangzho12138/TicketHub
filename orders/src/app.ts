@@ -5,6 +5,7 @@ import cookieSession from 'cookie-session'
 import { NotFoundError, errorHandler, currentUser } from '@ticket_hub/common';
 import { newOrderRouter } from './routes/new';
 import { showOrderRouter } from './routes/show';
+import { showAllOrderRouter } from './routes/showAll';
 
 const app = express()
 app.set('trust proxy', true) // https
@@ -17,6 +18,7 @@ app.use(currentUser) // get token from cookie and wirte userinfo into req
 
 app.use(newOrderRouter)
 app.use(showOrderRouter)
+app.use(showAllOrderRouter)
 
 app.all('*', (req, res) => {
     throw new NotFoundError()

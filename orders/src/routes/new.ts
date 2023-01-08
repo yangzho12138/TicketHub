@@ -40,8 +40,9 @@ router.post('/api/orders', requireAuth, [
     })
     await order.save()
 
-    ticket.number -= number
-    await ticket.save()
+    // ticket-update-listener will update the number, or the version will be affected
+    // ticket.number -= number
+    // await ticket.save()
 
     new OrderCreatedPublisher(natsWrapper.client).publish({
         id: order.id,

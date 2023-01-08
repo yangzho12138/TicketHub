@@ -34,6 +34,7 @@ it('returns an error if an invalid title is provided', async () => {
       .send({
         title: '',
         price: 10,
+        number: 10,
       })
       .expect(400);
   
@@ -42,6 +43,7 @@ it('returns an error if an invalid title is provided', async () => {
       .set('Cookie', global.signin())
       .send({
         price: 10,
+        number: 10,
       })
       .expect(400);
 });
@@ -53,6 +55,7 @@ it('returns an error if an invalid price is provided', async () => {
       .send({
         title: 'fight',
         price: -10,
+        number: 10,
       })
       .expect(400);
   
@@ -61,6 +64,28 @@ it('returns an error if an invalid price is provided', async () => {
       .set('Cookie', global.signin())
       .send({
         title: 'fight',
+        number: 10,
+      })
+      .expect(400);
+  });
+
+  it('returns an error if an invalid number is provided', async () => {
+    await request(app)
+      .post('/api/tickets')
+      .set('Cookie', global.signin())
+      .send({
+        title: 'fight',
+        price: 10,
+        number: -5
+      })
+      .expect(400);
+  
+    await request(app)
+      .post('/api/tickets')
+      .set('Cookie', global.signin())
+      .send({
+        title: 'fight',
+        price: 10,
       })
       .expect(400);
   });
@@ -77,6 +102,7 @@ it('returns an error if an invalid price is provided', async () => {
         .send({
             title,
             price: 20,
+            number: 10,
         })
         .expect(201);
 
@@ -95,6 +121,7 @@ it('publish an event', async() => {
   .send({
     title,
     price: 20,
+    number: 10,
   })
   .expect(201);
 

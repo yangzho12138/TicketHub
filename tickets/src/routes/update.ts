@@ -20,6 +20,7 @@ router.put(
     body("price")
       .isFloat({ gt: 0 })
       .withMessage("Price must be provided and must be greater than 0"),
+    body('number').isFloat({ gt: 0 }).withMessage('Ticket available number must be greater than 0')
   ],
   validateRequest,
   async (req: Request, res: Response) => {
@@ -37,7 +38,8 @@ router.put(
 
     ticket.set({
       title,
-      price
+      price,
+      number
     });
     await ticket.save();
 

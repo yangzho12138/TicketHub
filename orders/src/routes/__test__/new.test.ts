@@ -42,6 +42,7 @@ it('return an error if the ticket is not exist', async() => {
 
 it('return an error if there is no ticket left', async() => {
     const ticket = Ticket.build({
+        id: (new mongoose.Types.ObjectId()).toHexString(),
         title: 'concert',
         price: 10,
         number: 10
@@ -61,6 +62,7 @@ it('return an error if there is no ticket left', async() => {
 it('reserve tickets successfully', async() => {
     const availableNumber = 10
     const ticket = Ticket.build({
+        id: (new mongoose.Types.ObjectId()).toHexString(),
         title: 'concert',
         price: 10,
         number: availableNumber

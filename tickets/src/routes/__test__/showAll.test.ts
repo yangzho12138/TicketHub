@@ -7,6 +7,7 @@ const createTicket = () => {
   .set("Cookie", global.signin()).send({
     title: "fight",
     price: 20,
+    number: 10,
   });
 };
 

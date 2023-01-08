@@ -7,6 +7,7 @@ import { OrderStatus } from '@ticket_hub/common';
 
 it('return an error if a user wants to delete another users order', async() => {
     const ticket = Ticket.build({
+        id: (new mongoose.Types.ObjectId()).toHexString(),
         title: 'concert',
         price: 10,
         number: 10
@@ -41,6 +42,7 @@ it('return an error if the delete order is not exist', async() => {
 it('mark the order as cancelled', async() => {
     const availableNumber = 10
     const ticket = Ticket.build({
+        id: (new mongoose.Types.ObjectId()).toHexString(),
         title: 'concert',
         price: 10,
         number: availableNumber

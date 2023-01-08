@@ -5,6 +5,7 @@ import mongoose from 'mongoose'
 
 it('fetchs the order', async() => {
     const ticket = Ticket.build({
+        id: (new mongoose.Types.ObjectId()).toHexString(),
         title: 'concert',
         price: 10,
         number: 10
@@ -33,6 +34,7 @@ it('fetchs the order', async() => {
 
 it('return an error if a user wants to get another users order', async() => {
     const ticket = Ticket.build({
+        id: (new mongoose.Types.ObjectId()).toHexString(),
         title: 'concert',
         price: 10,
         number: 10

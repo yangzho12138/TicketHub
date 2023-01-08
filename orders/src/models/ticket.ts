@@ -50,7 +50,12 @@ ticketSchema.set('versionKey', 'version')
 ticketSchema.plugin(updateIfCurrentPlugin)
 
 ticketSchema.statics.build = (attri: TicketAttri) => {
-    return new Ticket(attri)
+    return new Ticket({
+        _id: attri.id, // transfer _id to the id pass into the function
+        title: attri.title,
+        price: attri.price,
+        number: attri.number
+    })
 }
 
 ticketSchema.methods.canBeReserved = async function(reserveNumber : number){

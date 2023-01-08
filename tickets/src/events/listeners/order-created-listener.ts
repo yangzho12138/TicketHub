@@ -14,9 +14,9 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent>{
         if(!ticket){
             throw new Error("Ticket not found")
         }
-
+        ticket.orderId!.push(data.id)
         ticket.set({ 
-            orderId: ticket.orderId!.push(data.id),
+            orderId: ticket.orderId,
             number: ticket.number - data.number
         })
         await ticket.save()

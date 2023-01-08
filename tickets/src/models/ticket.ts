@@ -40,7 +40,7 @@ const ticketSchema = new mongoose.Schema(
           required: true
         },
         orderId: {
-          type: Array<String>,
+          type: Array,
           default: []
         }
       },

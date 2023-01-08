@@ -33,7 +33,7 @@ router.put(
       throw new NotAuthorizedError();
     }
 
-    const { title, price } = req.body
+    const { title, price, number } = req.body
 
     ticket.set({
       title,
@@ -46,7 +46,9 @@ router.put(
       id: ticket.id,
       title: ticket.title,
       price: ticket.price,
-      userId: ticket.userId
+      userId: ticket.userId,
+      number,
+      version: ticket.version
     })
 
     res.send(ticket);

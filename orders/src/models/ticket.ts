@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
 interface TicketAttri{
+    id: string // keep consistence with the ticket id in Ticket service
     title: string
     price: number
     number: number
@@ -10,6 +12,7 @@ export interface TicketDoc extends mongoose.Document{
     title: string
     price: number
     number: number
+    version: number
     canBeReserved(reserveNumber : number) : Promise<boolean>
 }
 
@@ -42,6 +45,9 @@ const ticketSchema = new mongoose.Schema(
         }
     }
 )
+
+ticketSchema.set('versionKey', 'version')
+ticketSchema.plugin(updateIfCurrentPlugin)
 
 ticketSchema.statics.build = (attri: TicketAttri) => {
     return new Ticket(attri)

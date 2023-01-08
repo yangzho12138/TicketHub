@@ -4,6 +4,8 @@ import { requireAuth, validateRequest, BadRequestError, OrderStatus, NotFoundErr
 import mongoose from "mongoose";
 import { Ticket } from "../models/ticket";
 import { Order } from "../models/order";
+import { OrderCreatedPublisher } from '../events/publishers/order-created-publisher';
+import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router()
 
@@ -40,6 +42,19 @@ router.post('/api/orders', requireAuth, [
 
     ticket.number -= number
     await ticket.save()
+
+    new OrderCreatedPublisher(natsWrapper.client).publish({
+        id: order.id,
+        version: order.version,
+        status: order.status,
+        number: order.number,
+        expireAt: order.expireAt.toISOString(),
+        userId: order.userId,
+        ticket: {
+            id: ticket.id,
+            price: ticket.price,
+        }
+    })
 
     res.status(201).send(order)
 })

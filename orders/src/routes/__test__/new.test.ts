@@ -2,6 +2,7 @@ import request from "supertest";
 import { app } from "../../app";
 import mongoose from 'mongoose'
 import { Ticket } from "../../models/ticket";
+import { natsWrapper } from '../../nats-wrapper';
 
 it('return an error with invalid ticketId', async() => {
     await request(app)
@@ -82,4 +83,27 @@ it('reserve tickets successfully', async() => {
     const ticketUpdate = await Ticket.findById(ticket.id)
 
     expect(ticketUpdate!.number).toEqual(availableNumber - reserveNumber)
+})
+
+it('emit an order created event', async() => {
+    const availableNumber = 10
+    const ticket = Ticket.build({
+        id: (new mongoose.Types.ObjectId()).toHexString(),
+        title: 'concert',
+        price: 10,
+        number: availableNumber
+    })
+    await ticket.save()
+
+    const reserveNumber = 7
+    await request(app)
+    .post('/api/orders')
+    .set('Cookie', global.signin())
+    .send({
+        ticketId: ticket.id,
+        number: reserveNumber
+    })
+    .expect(201)
+
+    expect(natsWrapper.client.publish).toHaveBeenCalled()
 })

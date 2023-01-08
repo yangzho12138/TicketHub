@@ -16,6 +16,10 @@ export class OrderCancelledListener extends Listener<OrderCancelledEvent>{
             throw new Error("Ticket not found")
         }
 
+        const order = ticket.orderId!.filter(item => item === data.id)
+        if(!order){
+            throw new Error('Order to be cancelled not found')
+        }
 
         ticket.orderId = ticket.orderId!.filter(item => item !== data.id)
         ticket.set({ 

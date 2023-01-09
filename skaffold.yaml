@@ -35,6 +35,14 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: .
+    - image: yangzhou12138/expiration
+      context: expiration # folder
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
     - image: yangzhou12138/orders
       context: orders # folder
       docker:

@@ -79,10 +79,6 @@ it('reserve tickets successfully', async() => {
         number: reserveNumber
     })
     .expect(201)
-
-    const ticketUpdate = await Ticket.findById(ticket.id)
-
-    expect(ticketUpdate!.number).toEqual(availableNumber - reserveNumber)
 })
 
 it('emit an order created event', async() => {

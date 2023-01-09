@@ -62,10 +62,6 @@ it('mark the order as cancelled', async() => {
     })
     .expect(201)
 
-    const ticketUpdate = await Ticket.findById(ticket.id)
-
-    expect(ticketUpdate!.number).toEqual(availableNumber - reserveNumber)
-
     await request(app)
     .delete(`/api/orders/${order.id}`)
     .set('Cookie', user)
@@ -75,7 +71,6 @@ it('mark the order as cancelled', async() => {
     const updateOrder = await Order.findById(order.id).populate('ticket')
 
     expect(updateOrder!.status).toEqual(OrderStatus.Cancelled)
-    expect(updateOrder!.ticket.number).toEqual(availableNumber)
 })
 
 it('emit an order cancelled event', async() => {

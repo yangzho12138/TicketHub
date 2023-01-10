@@ -15,7 +15,7 @@ interface OrderAttri{
 interface OrderDoc extends mongoose.Document{
     number: number
     userId: String
-    price: String
+    price: number
     status: OrderStatus
     version: number
 }
@@ -34,7 +34,7 @@ const orderSchema = new mongoose.Schema({
         required: true
     },
     status: {
-        type: OrderStatus,
+        type: String,
         required: true
     },
     number: {

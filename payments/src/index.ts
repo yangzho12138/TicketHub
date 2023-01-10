@@ -1,6 +1,8 @@
 import mongoose from 'mongoose'
 import { app } from './app';
 import { natsWrapper } from './nats-wrapper';
+import { OrderCreatedListner } from './events/listeners/order-created-listener';
+import { OrderCancelledListener } from './events/listeners/order-cancelled-listener';
 
 
 const start = async() => {
@@ -24,6 +26,10 @@ const start = async() => {
         throw new Error("NATS_CLUSTER_ID must be defined");
     }
 
+    if(!process.env.STRIPE_KEY){
+        throw new Error("STRIPE_KEY must be defined");
+    }
+
     try{
         await natsWrapper.connect(process.env.NATS_CLUSTER_ID, process.env.NATS_CLIENT_ID, process.env.NATS_URL)
         // due the heartbeat, after close a client -> nats will still send msg to it until it not response heartbeat
@@ -34,6 +40,9 @@ const start = async() => {
         })
         process.on('SIGINT', () => natsWrapper.client.close())
         process.on('SIGTERM', () => natsWrapper.client.close())
+
+        new OrderCreatedListner(natsWrapper.client).listen()
+        new OrderCancelledListener(natsWrapper.client).listen()
 
         await mongoose.connect(process.env.MONGO_URI)
         console.log("Database connect success!")

@@ -4,7 +4,7 @@ import { Order } from '../../models/order';
 import { queueGroupName } from './queue-group-name';
 
 export class OrderCreatedListner extends Listener<OrderCreatedEvent>{
-    readonly subject = Subjects.OrderCreated;
+    readonly subject = Subjects.OrderCreated
     queueGroupName = queueGroupName
 
 

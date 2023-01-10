@@ -7,7 +7,7 @@ interface OrderAttri{
     id: String
     number: number
     userId: String
-    price: String
+    price: number
     status: OrderStatus
     version: number
 }
@@ -30,7 +30,7 @@ const orderSchema = new mongoose.Schema({
         required: true
     },
     price: {
-        type: String,
+        type: Number,
         required: true
     },
     status: {
